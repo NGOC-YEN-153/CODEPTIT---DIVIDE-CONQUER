@@ -1,0 +1,37 @@
+#include <bits/stdc++.h>
+#define ll long long
+#define ii pair<ll,ll>
+#define db double
+using namespace std;
+double distance(pair<db,db> a, pair<db,db> b){
+    return (db)sqrt((a.first - b.first) * (a.first - b.first) + (a.second - b.second) * (a.second - b.second));
+}
+void solve(){
+    int n ;
+    cin >> n;
+    ii a[n];
+    for(int i =0 ; i< n; i++)cin >>a[i].first >> a[i].second;
+    sort(a,a+n);
+    db ans = distance(a[0] , a[1]);
+    for(int i = 2  ; i < n ; i++){
+        // i - j < ans;
+        // j> i  - ans;
+        int res = -1;
+        int l = 0 , r = i - 1;
+        while(l <= r){
+            int m = (l + r) /2;
+            if((db)a[m].first > a[i].first - ans)res = m , r = m-1;
+            else l = m+1;
+        }
+        if(res == -1)continue;
+        for(int j = res ; j <= i - 1 ; j++)ans = min(ans , distance(a[j] , a[i]));
+    }
+    cout<<fixed<<setprecision(6)<<ans<<endl;
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
+    int t = 1;
+    cin >> t;
+    while(t--)solve();
+}
